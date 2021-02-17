@@ -38,6 +38,6 @@ runs:
     - ${{ inputs.galaxyGithubToken }}
     - ${{ inputs.extraVars }}
     - ${{ inputs.extraFile }}
-    - ${{ inputs.verbosity }}'
+    - ${{ inputs.verbosity }}
     - ${{ inputs.keyFile }}
     - ${{ inputs.keyFileVaultPass }}
