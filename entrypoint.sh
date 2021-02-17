@@ -47,7 +47,7 @@ then
 else
   echo "\$INPUT_INVENTORYFILE is set. Will use ${INPUT_INVENTORYFILE} as inventory file."
   export INVENTORY="-i ${INPUT_INVENTORYFILE}"
-  cat ${INVENTORY}
+  cat ansible/dev/hosts.yml
 fi
 
 # Evaluate requirements.
