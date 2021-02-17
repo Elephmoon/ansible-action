@@ -47,6 +47,7 @@ then
 else
   echo "\$INPUT_INVENTORYFILE is set. Will use ${INPUT_INVENTORYFILE} as inventory file."
   export INVENTORY="-i ${INPUT_INVENTORYFILE}"
+  cat ${INVENTORY}
 fi
 
 # Evaluate requirements.
@@ -72,4 +73,4 @@ fi
 
 echo "going to execute: "
 echo ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${VERBOSITY}
-ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${VERBOSITY}
+ansible-playbook ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${VERBOSITY} ${INPUT_PLAYBOOKNAME}
