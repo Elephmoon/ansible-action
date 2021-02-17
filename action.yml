@@ -21,6 +21,12 @@ inputs:
   verbosity:
     description: 'Choose one of 4 verbosity levels. See Ansible documentation for details.'
     required: false
+  keyFile:
+    description: 'Keyfile to use for host connections.'
+    required: false
+  keyFileVaultPass:
+    description: 'Vault Password to decrypt keyFile.'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -33,3 +39,5 @@ runs:
     - ${{ inputs.extraVars }}
     - ${{ inputs.extraFile }}
     - ${{ inputs.verbosity }}'
+    - ${{ inputs.keyFile }}
+    - ${{ inputs.keyFileVaultPass }}

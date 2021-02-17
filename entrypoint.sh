@@ -2,6 +2,33 @@
 
 set -e
 
+# Evaluate keyfilevaultpass
+export KEYFILEVAULTPASS=
+if [ ! -z "$INPUT_KEYFILEVAULTPASS" ]
+then
+  echo "Using \$INPUT_KEYFILE_VAULT_PASS to decrypt and access vault."
+  mkdir -p ~/.ssh
+  echo "${INPUT_KEYFILEVAULTPASS}" > ~/.ssh/vault_key
+  export KEYFILEVAULTPASS="--vault-password-file ~/.ssh/vault_key"
+else
+  echo "\$INPUT_KEYFILEVAULTPASS not set. Won't be able to decrypt any encrypted file."
+fi
+
+# Evaluate keyfile
+export KEYFILE=
+if [ ! -z "$INPUT_KEYFILE" ]
+then
+  echo "\$INPUT_KEYFILE is set. Will use ssh keyfile for host connections."
+  if [ ! -z "$KEYFILEVAULTPASS" ]
+  then
+    echo "Using \$INPUT_KEYFILE_VAULT_PASS to decrypt keyfile."
+    ansible-vault decrypt ${INPUT_KEYFILE} ${KEYFILEVAULTPASS}
+  fi
+  export KEYFILE="--key-file ${INPUT_KEYFILE}"
+else
+  echo "\$INPUT_KEYFILE not set. You'll most probably only be able to work on localhost."
+fi
+
 # Evaluate verbosity
 export VERBOSITY=
 if [ -z "$INPUT_VERBOSITY" ]
@@ -30,10 +57,7 @@ then
 else
   REQUIREMENTS=$INPUT_REQUIREMENTSFILE
 
-  ansible-galaxy install --force \
-    --roles-path ${ROLES_PATH} \
-    -r ${REQUIREMENTS} \
-    ${VERBOSITY}
+  ansible-galaxy install --force -r ${REQUIREMENTS} ${VERBOSITY}
 fi
 
 # Evaluate extra vars file
@@ -47,5 +71,5 @@ else
 fi
 
 echo "going to execute: "
-echo ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${VERBOSITY}
+echo ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${KEYFILE} ${VERBOSITY}
 ansible-playbook ${INPUT_PLAYBOOKNAME} ${INVENTORY} ${EXTRAFILE} ${INPUT_EXTRAVARS} ${VERBOSITY}
