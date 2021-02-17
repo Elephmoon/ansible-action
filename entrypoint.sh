@@ -2,6 +2,8 @@
 
 set -e
 
+echo "======================STARTING==================="
+
 # Evaluate keyfilevaultpass
 export KEYFILEVAULTPASS=
 if [ ! -z "$INPUT_KEYFILEVAULTPASS" ]

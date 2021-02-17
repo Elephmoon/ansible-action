@@ -1,4 +1,4 @@
-FROM ghcr.io/elephmoon/ansible-image:main
+FROM ghcr.io/elephmoon/ansible-image:develop
 
 MAINTAINER Alexandr Kizilow <alexandr.kizilow@gmail.com>
 
