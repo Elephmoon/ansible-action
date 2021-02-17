@@ -1,0 +1,35 @@
+# action.yml
+name: 'Execute ansible playbook in actions'
+author: 'Alexandr Kizilow'
+description: 'Executes ansible playbook from github actions'
+inputs:
+  playbookName:
+    description: 'Name of the playbook'
+    required: true
+  inventoryFile:
+    description: 'Name of the inventory file'
+    required: false
+  requirementsFile:
+    description: 'Name of the requirements file'
+    required: false
+  extraVars:
+    description: 'String containing all extraVars which you want to be injected into the run.'
+    required: false
+  extraFile:
+    description: 'File containing extra vars.'
+    required: false
+  verbosity:
+    description: 'Choose one of 4 verbosity levels. See Ansible documentation for details.'
+    required: false
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.playbookName }}
+    - ${{ inputs.inventoryFile }}
+    - ${{ inputs.requirementsFile }}
+    - ${{ inputs.galaxyGithubUser }}
+    - ${{ inputs.galaxyGithubToken }}
+    - ${{ inputs.extraVars }}
+    - ${{ inputs.extraFile }}
+    - ${{ inputs.verbosity }}'
